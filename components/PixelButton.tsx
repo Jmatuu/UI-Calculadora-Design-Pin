@@ -4,7 +4,7 @@ import { COLORS, FONT_FAMILY, LAYOUT } from '../constants/theme';
 
 type PixelButtonProps = {
   label: string;
-  /** Callback opcional. La app es solo UI: no se pasa ninguno. */
+  /** Acción opcional al pulsar. */
   onPress?: () => void;
 };
 

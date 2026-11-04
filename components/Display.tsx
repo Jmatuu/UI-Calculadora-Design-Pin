@@ -35,6 +35,16 @@ export function Display({ value = '0', operation = '' }: DisplayProps) {
 
   // Press Start 2P es monoespaciada: el ancho del texto es fontSize * nº de caracteres.
   const contentWidth = width - LAYOUT.screenPadding * 2;
+  const operationCharCount = Math.max(
+    1,
+    Math.floor(contentWidth / LAYOUT.operationFontSize)
+  );
+  const operationText =
+    operation.length > operationCharCount
+      ? operationCharCount === 1
+        ? '…'
+        : `…${operation.slice(-(operationCharCount - 1))}`
+      : operation;
   const charCount = Math.max(value.length, 1);
   const valueFontSize = Math.min(
     LAYOUT.displayFontSizeMax,
@@ -70,7 +80,7 @@ export function Display({ value = '0', operation = '' }: DisplayProps) {
         </View>
 
         <Text style={styles.operation} numberOfLines={1} allowFontScaling={false}>
-          {operation}
+          {operationText}
         </Text>
       </View>
     </View>

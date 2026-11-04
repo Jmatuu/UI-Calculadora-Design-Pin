@@ -4,12 +4,22 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Display } from '../components/Display';
 import { PixelButton } from '../components/PixelButton';
 import { COLORS, KEYPAD_ROWS, LAYOUT } from '../constants/theme';
+import { useCalculadora } from '../hooks/useCalculadora';
 
 /**
- * UI de calculadora retro pixel-art. Sin lógica: los botones no hacen nada.
+ * UI de calculadora retro pixel-art.
  */
 export default function CalculatorScreen() {
   const { width, height } = useWindowDimensions();
+  const maxCaracteres = Math.max(
+    1,
+    Math.floor(
+      ((width - LAYOUT.screenPadding * 2) * LAYOUT.displayWidthFill) /
+        LAYOUT.displayFontSizeMin
+    )
+  );
+  const { pantalla, operacionMostrada, presionarBoton } =
+    useCalculadora(maxCaracteres);
 
   // Ancho explícito de la celda (4 columnas) -> el botón descuenta el padding
   // de la celda y queda cuadrado.
@@ -26,7 +36,7 @@ export default function CalculatorScreen() {
     <View style={styles.root}>
       <StatusBar style="light" />
 
-      <Display value="99.99" operation="10 + 89.99" />
+      <Display value={pantalla} operation={operacionMostrada} />
 
       <View style={[styles.keypad, { height: keypadHeight }]}>
         {KEYPAD_ROWS.map((row, rowIndex) => (
@@ -42,7 +52,10 @@ export default function CalculatorScreen() {
                   },
                 ]}
               >
-                <PixelButton label={key.label} />
+                <PixelButton
+                  label={key.label}
+                  onPress={() => presionarBoton(key.label)}
+                />
               </View>
             ))}
           </View>

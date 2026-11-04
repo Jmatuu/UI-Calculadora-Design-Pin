@@ -1,6 +1,6 @@
 /**
  * Tokens de diseño de la calculadora retro pixel-art.
- * App SIN lógica: aquí solo hay paleta, métricas y la definición del teclado.
+ * Aquí viven la paleta, las métricas y la definición del teclado.
  */
 
 export const COLORS = {
