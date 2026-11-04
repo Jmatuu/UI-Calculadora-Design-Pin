@@ -10,6 +10,7 @@ type EstadoCalculadora = {
   nuevaEntrada: boolean;
   resultadoMostrado: boolean;
   error: string | null;
+  ultimaOperacion: { expresion: string; resultado: string } | null;
 };
 
 const ESTADO_INICIAL: EstadoCalculadora = {
@@ -20,6 +21,7 @@ const ESTADO_INICIAL: EstadoCalculadora = {
   nuevaEntrada: true,
   resultadoMostrado: false,
   error: null,
+  ultimaOperacion: null,
 };
 
 function formatearNumero(valor: number): string {
@@ -272,6 +274,10 @@ function procesarTecla(
       nuevaEntrada: true,
       resultadoMostrado: true,
       error: null,
+      ultimaOperacion: {
+        expresion,
+        resultado: formatearNumero(resultado),
+      },
     };
   }
 
@@ -288,10 +294,24 @@ export function useCalculadora(maxCaracteres: number) {
     [maxCaracteres]
   );
 
+  const restaurarOperacion = useCallback(
+    (expresion: string, resultado: string) => {
+      setEstado({
+        ...ESTADO_INICIAL,
+        pantalla: resultado,
+        expresion,
+        resultadoMostrado: true,
+      });
+    },
+    []
+  );
+
   return {
     pantalla: estado.pantalla,
     operacionMostrada: estado.expresion,
     error: estado.error,
+    ultimaOperacion: estado.ultimaOperacion,
     presionarBoton,
+    restaurarOperacion,
   };
 }

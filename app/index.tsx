@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Display } from '../components/Display';
+import { HistoryPanel } from '../components/HistoryPanel';
 import { PixelButton } from '../components/PixelButton';
-import { COLORS, KEYPAD_ROWS, LAYOUT } from '../constants/theme';
+import { COLORS, FONT_FAMILY, KEYPAD_ROWS, LAYOUT } from '../constants/theme';
 import { useCalculadora } from '../hooks/useCalculadora';
+import { useHistorial } from '../hooks/useHistorial';
 
 /**
  * UI de calculadora retro pixel-art.
@@ -18,8 +20,23 @@ export default function CalculatorScreen() {
         LAYOUT.displayFontSizeMin
     )
   );
-  const { pantalla, operacionMostrada, presionarBoton } =
-    useCalculadora(maxCaracteres);
+  const {
+    pantalla,
+    operacionMostrada,
+    ultimaOperacion,
+    presionarBoton,
+    restaurarOperacion,
+  } = useCalculadora(maxCaracteres);
+  const { operaciones, agregarOperacion, eliminarOperacion, borrarHistorial } =
+    useHistorial();
+  const [historialVisible, setHistorialVisible] = useState(false);
+  const operacionGuardadaRef = useRef(ultimaOperacion);
+
+  useEffect(() => {
+    if (!ultimaOperacion || operacionGuardadaRef.current === ultimaOperacion) return;
+    operacionGuardadaRef.current = ultimaOperacion;
+    agregarOperacion(ultimaOperacion.expresion, ultimaOperacion.resultado);
+  }, [ultimaOperacion, agregarOperacion]);
 
   // Ancho explícito de la celda (4 columnas) -> el botón descuenta el padding
   // de la celda y queda cuadrado.
@@ -37,6 +54,14 @@ export default function CalculatorScreen() {
       <StatusBar style="light" />
 
       <Display value={pantalla} operation={operacionMostrada} />
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Abrir historial de operaciones"
+        onPress={() => setHistorialVisible(true)}
+        style={styles.historyToggle}
+      >
+        <Text style={styles.historyToggleText}>HIST</Text>
+      </Pressable>
 
       <View style={[styles.keypad, { height: keypadHeight }]}>
         {KEYPAD_ROWS.map((row, rowIndex) => (
@@ -61,6 +86,17 @@ export default function CalculatorScreen() {
           </View>
         ))}
       </View>
+      <HistoryPanel
+        visible={historialVisible}
+        operaciones={operaciones}
+        onClose={() => setHistorialVisible(false)}
+        onSelect={(operation) => {
+          restaurarOperacion(operation.expresion, operation.resultado);
+          setHistorialVisible(false);
+        }}
+        onDelete={eliminarOperacion}
+        onClear={borrarHistorial}
+      />
     </View>
   );
 }
@@ -69,6 +105,24 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: COLORS.sky,
+  },
+  historyToggle: {
+    position: 'absolute',
+    top: 40,
+    right: LAYOUT.screenPadding,
+    zIndex: 5,
+    width: 48,
+    height: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: LAYOUT.bevel / 2,
+    borderColor: COLORS.bevelDark,
+    backgroundColor: COLORS.button,
+  },
+  historyToggleText: {
+    color: COLORS.label,
+    fontFamily: FONT_FAMILY,
+    fontSize: 7,
   },
   keypad: {
     paddingHorizontal: LAYOUT.keypadPadding,
