@@ -79,7 +79,9 @@ export default function CalculatorScreen() {
               >
                 <PixelButton
                   label={key.label}
-                  onPress={() => presionarBoton(key.label)}
+                  onPress={() =>
+                 presionarBoton(key.label === '-' ? '×' : key.label)
+                }
                 />
               </View>
             ))}
