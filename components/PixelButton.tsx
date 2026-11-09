@@ -4,8 +4,8 @@ import { COLORS, FONT_FAMILY, LAYOUT } from '../constants/theme';
 
 type PixelButtonProps = {
   label: string;
-  /** Acción opcional al pulsar. */
   onPress?: () => void;
+  color?: string;
 };
 
 /**
@@ -16,7 +16,7 @@ type PixelButtonProps = {
  *
  * Todo se dibuja con Views y estilos, sin imágenes.
  */
-export function PixelButton({ label, onPress }: PixelButtonProps) {
+export function PixelButton({ label, onPress, color }: PixelButtonProps) {
   return (
     <Pressable
       style={({ pressed }) => [styles.button, pressed && styles.pressed]}
@@ -51,7 +51,7 @@ export function PixelButton({ label, onPress }: PixelButtonProps) {
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    backgroundColor: COLORS.button,
+    backgroundColor: color ?? COLORS.button,
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',

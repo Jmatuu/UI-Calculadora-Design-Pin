@@ -81,6 +81,7 @@ export default function CalculatorScreen() {
                   label={key.label}
                   onPress={() =>
                  presionarBoton(key.label === '-' ? '×' : key.label)
+                 onPress={() => presionarBoton(key.label)}
                 }
                 />
               </View>
