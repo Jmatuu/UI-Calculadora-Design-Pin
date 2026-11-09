@@ -19,9 +19,13 @@ type PixelButtonProps = {
 export function PixelButton({ label, onPress, color }: PixelButtonProps) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
-      onPress={onPress}
-    >
+      style={({ pressed }) => [
+       styles.button,
+        { backgroundColor: color ?? COLORS.button },
+         pressed && styles.pressed,
+          ]}
+         onPress={onPress}
+          >
       {/* Bisel: primero las franjas oscuras, luego las claras encima
           (así las esquinas quedan "elevadas": claro arriba/izq, oscuro abajo/der) */}
       <View style={[styles.strip, styles.stripBottom]} />
@@ -50,12 +54,12 @@ export function PixelButton({ label, onPress, color }: PixelButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
-    backgroundColor: color ?? COLORS.button,
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  flex: 1,
+  backgroundColor: COLORS.button,
+  overflow: 'hidden',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
   pressed: {
     opacity: 0.85,
   },
