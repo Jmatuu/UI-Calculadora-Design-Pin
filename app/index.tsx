@@ -79,7 +79,7 @@ export default function CalculatorScreen() {
               >
                 <PixelButton
   label={key.label}
-  color={key.label === '+' ? '#00FF00' : undefined}
+  color={key.label === '-' ? '#101753' : undefined}
   onPress={() =>
     presionarBoton(key.label === '-' ? '×' : key.label)
   }
