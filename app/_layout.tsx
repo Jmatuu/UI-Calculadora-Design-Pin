@@ -18,8 +18,8 @@ export default function RootLayout() {
   }
 
   return <Slot />;
-}
-
+ }
+//ey 
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
