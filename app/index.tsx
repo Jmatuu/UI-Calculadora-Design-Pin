@@ -9,7 +9,7 @@ import { useCalculadora } from '../hooks/useCalculadora';
 import { useHistorial } from '../hooks/useHistorial';
 
 /**
- * UI de calculadora retro pixel-art.
+ * UI de calculadora retro pixel-art
  */
 export default function CalculatorScreen() {
   const { width, height } = useWindowDimensions();
