@@ -78,5 +78,5 @@ export const KEYPAD_ROWS: readonly (readonly KeyDef[])[] = [
   [{ label: '7' }, { label: '8' }, { label: '9' }, { label: '×' }],
   [{ label: '4' }, { label: '5' }, { label: '6' }, { label: '-' }],
   [{ label: '1' }, { label: '2' }, { label: '3' }, { label: '+' }],
-  [{ label: '.' }, { label: '0' }, { label: '=' , wide: true }],
+  [{ label: '.' }, { label: '0' }, { label: '=' , wide: true }],  //Tercer cambio, duplicar cualquier boton y que siga cumpliendo la logica original
 ];
