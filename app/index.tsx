@@ -79,9 +79,9 @@ export default function CalculatorScreen() {
               >
                 <PixelButton
   label={key.label}
-  color={key.label === '-' ? '#101753' : undefined}  // Segundo cambio, cambiar el color de cada boton independientemente
+  color={key.label === '' ? '#101753' : undefined}  // Segundo cambio, cambiar el color de cada boton independientemente
   onPress={() =>
-    presionarBoton(key.label === '-' ? '×' : key.label)  // Primer cambio, alterar la logica de los botones 
+    presionarBoton(key.label === '' ? '' : key.label)  // Primer cambio, alterar la logica de los botones 
   }
 />
               </View>
